@@ -389,3 +389,5 @@ body{font-size:14px;}
 .mobile-nav .nav-group-trigger svg{width:16px;height:16px;transition:transform 160ms ease;}
 .mobile-nav .nav-group-trigger[data-state="open"] svg{transform:rotate(90deg);}
 @media(prefers-reduced-motion:reduce){.mobile-nav .nav-group-trigger svg{transition:none;}}
+
+.topbar-actions>.notification-button[data-slot="button"]{width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;}
