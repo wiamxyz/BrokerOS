@@ -307,7 +307,7 @@ body{font-size:14px;}
 :root{--foreground:#0d0d0d;--primary:#212121;--muted:#f9f9f9;--muted-foreground:#5d5d5d;--border:#e8e8e8;--ring:#8f8f8f;}
 [data-slot="input"]:focus-visible,[data-slot="textarea"]:focus-visible,[data-slot="select-trigger"]:focus-visible,[data-slot="button"]:focus-visible{box-shadow:none;outline:2px solid var(--ring);outline-offset:2px;}
 .sidebar-navigation{min-height:0;}
-.recent-chats{margin-top:24px;}
+.recent-chats{margin-top:8px;}
 .recent-chats .nav-link{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;}
 .sidebar-collapsed .sidebar .recent-chats{display:none;}
 .profile[data-slot="button"]{width:100%;height:44px;justify-content:flex-start;border-radius:12px;font-weight:400;}
@@ -384,7 +384,7 @@ body{font-size:14px;}
 .chat-end{scroll-margin-bottom:190px;}
 
 /* Mobile group controls keep each section independently expandable. */
-.mobile-nav .nav-group,.mobile-nav .recent-chats{margin-top:12px;}
+.mobile-nav .nav-group{margin-top:12px;}
 .mobile-nav .nav-group-trigger{width:100%;min-height:44px;height:44px;padding:0 10px;justify-content:space-between;gap:12px;border-radius:10px;color:var(--muted-foreground);font-size:12px;font-weight:400;}
 .mobile-nav .nav-group-trigger svg{width:16px;height:16px;transition:transform 160ms ease;}
 .mobile-nav .nav-group-trigger[data-state="open"] svg{transform:rotate(90deg);}
