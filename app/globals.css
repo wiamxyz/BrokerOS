@@ -382,3 +382,10 @@ body{font-size:14px;}
 .profile>span{text-align:left;}.topbar-actions>.new-chat-action{order:2;}
 
 .chat-end{scroll-margin-bottom:190px;}
+
+/* Mobile group controls keep each section independently expandable. */
+.mobile-nav .nav-group,.mobile-nav .recent-chats{margin-top:12px;}
+.mobile-nav .nav-group-trigger{width:100%;min-height:44px;height:44px;padding:0 10px;justify-content:space-between;gap:12px;border-radius:10px;color:var(--muted-foreground);font-size:12px;font-weight:400;}
+.mobile-nav .nav-group-trigger svg{width:16px;height:16px;transition:transform 160ms ease;}
+.mobile-nav .nav-group-trigger[data-state="open"] svg{transform:rotate(90deg);}
+@media(prefers-reduced-motion:reduce){.mobile-nav .nav-group-trigger svg{transition:none;}}
