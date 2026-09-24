@@ -37,3 +37,9 @@ See `docs/HANDYOS-UI-REVIEW.md` for the source-to-BrokerOS mapping and boundarie
 The mobile menu uses the user's ChatGPT sidebar screenshot as a spacing and hierarchy reference. Use a white sheet up to 320px wide, a 24px BrokerOS wordmark, a circular search action in the header, 48px navigation rows with 16px labels and 21px outline icons, and 15px semibold group headings. Keep Workspace, Growth and AI assistant independently collapsible and remember the user's choices. Recent conversations belong inside AI assistant, without a separate group heading.
 
 Keep the menu header and footer fixed while the middle scrolls. Put a monochrome Chat pill and circular profile/settings menu in the footer. Preserve a clearly labeled close button, keyboard focus management, a light backdrop and a subtle edge shadow for separation. Keep desktop navigation compact and retain its profile footer and icon rail. Notification bells use a circular outline button on both screen sizes.
+
+## Sidebar search reference
+
+On mobile, sidebar search opens an edge-to-edge white screen, focuses a pill-shaped input at the bottom, and places a circular close button alongside it. Keep the result list above the controls and scroll it independently. Follow the visual viewport's height and offset so the controls remain reachable when the on-screen keyboard opens. Use the real device keyboard, not an imitation in the interface. Desktop keeps a centered search dialog with the same results and controls.
+
+Show actual recently opened contacts, deals and chats under Last opened, newest first, with a type icon, title and one-line preview. Before any history exists, use Suggested instead. Store at most twelve references with the existing browser demo data; derive display text from current records and skip missing records. Search titles, chat messages, contact details and linked deal context as the agent types. Preserve a clear empty state and direct navigation to each result.

@@ -13,7 +13,8 @@ export type ChatProposal = {kind:'task'|'draft'|'campaign';contactId:string;titl
 export type ChatReceipt = {text:string;href:string;at:string};
 export type ChatMessage = {id:string;role:'user'|'assistant';text:string;proposal?:ChatProposal;receipt?:ChatReceipt;dismissed?:boolean};
 export type AssistantChat = {id:string;title:string;messages:ChatMessage[]};
-export type CRMState = {version:1;contacts:Contact[];deals:Deal[];tasks:Task[];activities:Activity[];approvals:Approval[];campaigns:Campaign[];chats?:AssistantChat[]};
+export type RecentItem = {kind:'contact'|'deal'|'chat';id:string};
+export type CRMState = {version:1;contacts:Contact[];deals:Deal[];tasks:Task[];activities:Activity[];approvals:Approval[];campaigns:Campaign[];chats?:AssistantChat[];recentlyOpened?:RecentItem[]};
 export const uid = () => crypto.randomUUID();
 export function today(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dubai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
 export function shiftDate(days:number){const d=new Date(today()+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}

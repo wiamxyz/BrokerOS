@@ -26,10 +26,11 @@ function LinkedText({text,onContact,onDeal}:Props&{text:string}){
  parts.push(text.slice(end));return <>{parts.map((part,i)=><Fragment key={i}>{part}</Fragment>)}</>;
 }
 function ChatView({id,...recordActions}:Props&{id:string|null}){
- const{data,setData,storageError}=useCRM();const router=useRouter();
+ const{data,setData,storageError,rememberOpened}=useCRM();const router=useRouter();
  const chat=chatsFor(data).find(c=>c.id===id);
  const[draft,setDraft]=useState('');const[copied,setCopied]=useState('');const[notice,setNotice]=useState('');const end=useRef<HTMLDivElement>(null);
  const activeChatId=chat?.id;const messageCount=chat?.messages.length;
+ useEffect(()=>{if(activeChatId)rememberOpened({kind:'chat',id:activeChatId});},[activeChatId,rememberOpened]);
  useEffect(()=>{if(activeChatId)end.current?.scrollIntoView({block:'end'});},[activeChatId,messageCount]);
  function send(question=draft){const text=question.trim();if(!text)return;const chatId=chat?.id??uid();const userId=uid(),responseId=uid();setData(s=>{const current=chatsFor(s).find(c=>c.id===chatId);return saveChat(s,{id:chatId,title:current?.title??text.slice(0,64),messages:[...(current?.messages??[]),{id:userId,role:'user',text},prepareReply(text,s,responseId)]});});setDraft('');if(!chat)router.push(`/chat/?chat=${encodeURIComponent(chatId)}`);}
  async function copy(message:ChatMessage){try{await navigator.clipboard.writeText(message.text);setCopied(message.id);}catch{setNotice('Select the response text to copy it.');}}
