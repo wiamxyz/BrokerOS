@@ -23,3 +23,11 @@ Use the current HandyOS interface as the concrete layout reference: 260px soft g
 Keep the dashboard flat: three simple summary cards, a daily priorities table and a compact review list. Do not restore the greeting hero, promotional assistant quote, progress ring or decorative pipeline chart. Summary cards use labels and values, with optional useful hints and no icon decoration.
 
 Use one-line contact and deal tables with filters outside the table frame, 54px rows, 24px outer corners and keyboard-accessible record buttons. Status pills use a small dot and sparse semantic color. Keep supporting information inside detail sheets. Use 20px page titles, 18px section titles, 14px body text, 24–32px spacing, thin neutral borders and no shadows. Mobile summary cards remain compact in three columns; wide tables scroll within their own frame.
+
+## Latest HandyOS interaction refinements
+
+Use a compact, sticky mobile header with smaller create actions and balanced button padding. Search and filters stay in one horizontally scrolling row, with short mobile placeholders and descriptive accessible names. A deliberate right swipe on noninteractive content opens navigation; preserve vertical scrolling and nested horizontal scrolling.
+
+The assistant has its own conversation canvas, New Chat and recent history, linked workspace records, a sticky composer and editable action proposals with saved results. Preserve the dedicated approval queue for outreach review. All chat replies are explicitly labeled as demo responses, and saved actions affect browser data only. Settings lives in a real profile menu. Show the active sort direction on every sortable table heading.
+
+See `docs/HANDYOS-UI-REVIEW.md` for the source-to-BrokerOS mapping and boundaries.

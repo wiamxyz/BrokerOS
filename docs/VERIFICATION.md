@@ -25,3 +25,10 @@ All communications, AI actions, market figures and launch details are demo simul
 - Verified desktop layout at 1440 × 1000 and mobile layout at 390 × 844. Mobile page width equals viewport width; daily priorities retain their priority and due time without horizontal scrolling.
 - Verified contact search and detail/edit dialogs, collapsed-sidebar navigation, campaign creation, mobile menu closure on navigation, assistant queue layout and persistent task completion after refresh.
 - Production build and TypeScript passed; ESLint passed without warnings. Browser error/warning log was empty during local checks.
+
+## Latest HandyOS interaction pass
+
+- Nine automated tests passed for reminder idempotency, duplicate handling, owner draft review, unsent campaign drafts, opted-out/missing contacts, dismissed proposals, invalid input, honest fallback responses and mobile swipe thresholds.
+- Verified new assistant chats and linked contact sheets, saved reminder receipt after reload, edited owner follow-up in Review queue, and an unsent Emaar draft in Campaigns.
+- Verified sortable contact priorities and profile/menu/settings navigation on mobile. Toolbars remain one 48px row, with overflow confined to the toolbar; the document width remains 390px on a 390px viewport.
+- Touch gesture direction/threshold rules were tested automatically; physical device touch behavior remains unverified.

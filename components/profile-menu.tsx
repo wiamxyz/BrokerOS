@@ -1,0 +1,8 @@
+'use client';
+import {useState} from 'react';
+import Link from 'next/link';
+import {DropdownMenu} from 'radix-ui';
+import {CircleUserRound,ChevronsUpDown,Settings} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
+export function ProfileMenu({onNavigate}:{onNavigate:()=>void}){const[open,setOpen]=useState(false);return <><DropdownMenu.Root><DropdownMenu.Trigger asChild><Button variant="ghost" className="profile nav-link" aria-label="Profile menu"><CircleUserRound size={20}/><span>Walid Naim</span><ChevronsUpDown size={15}/></Button></DropdownMenu.Trigger><DropdownMenu.Portal><DropdownMenu.Content side="top" align="start" sideOffset={8} collisionPadding={12} className="profile-menu"><DropdownMenu.Label>Walid’s workspace</DropdownMenu.Label><DropdownMenu.Item onSelect={()=>setOpen(true)}><CircleUserRound size={16}/>Profile</DropdownMenu.Item><DropdownMenu.Item asChild><Link href="/settings/" onClick={onNavigate}><Settings size={16}/>Settings</Link></DropdownMenu.Item></DropdownMenu.Content></DropdownMenu.Portal></DropdownMenu.Root><Dialog open={open} onOpenChange={setOpen}><DialogContent><DialogHeader><DialogTitle>Profile</DialogTitle><DialogDescription>Your agent workspace.</DialogDescription></DialogHeader><div className="profile-summary"><CircleUserRound size={36}/><div><strong>Walid Naim</strong><p>Real estate agent · Dubai</p></div></div><p className="quiet-note">Demo profile · Account editing will be available when sign-in is connected.</p></DialogContent></Dialog></>;}

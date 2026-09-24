@@ -19,3 +19,9 @@ Replace provider operations with a repository/service layer while preserving ent
 Lead-source adapters should normalize external IDs, source metadata and ingestion timestamps into contacts without silently duplicating people. Gmail, Property Finder, Bayut, Bitrix and social sources remain unconnected. Store building identifiers, verified timestamps, comparable unit characteristics and licensed source links before showing live market data. No scraping is implemented.
 
 A real assistant should produce structured proposals with evidence and a bounded action type. Only approved operations should execute. A reply/opt-out must pause nurture and cancel pending automation. Campaign interest remains nurture/qualification unless the agent establishes readiness to close. Mobile push needs a separate delivery channel; the current panel is in-app only.
+
+## Assistant demo interactions
+
+`lib/assistant-chat.ts` prepares bounded sample responses from current CRM data. It does not call a model. Conversations, proposals and receipts are stored in the optional `chats` field of the existing workspace record, preserving older browser data. `/chat/?chat=<id>` selects a conversation; record mentions open existing contact/deal sheets.
+
+The pure action transition checks current contact availability, opt-out status, proposal state and edited input. A proposal adds a local reminder, queues an outreach draft or saves an unsent campaign. It records the result in the conversation and assistant activity. Repeat confirmations are rejected; matching reminders are reused. Messages never leave the browser. Automated tests cover the action boundaries and swipe thresholds.

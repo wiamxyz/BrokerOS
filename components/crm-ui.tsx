@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode,useSyncExternalStore } from 'react';
 import { Search, CircleCheck, Inbox } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +13,11 @@ export function PriorityPill({priority}:{priority:Priority}){return <Pill tone={
 export function Avatar({name,small=false}:{name:string;small?:boolean}){const tone=name.charCodeAt(0)%4;return <span aria-hidden="true" className={`avatar avatar-${tone} ${small?'small':''}`}>{name.split(' ').map(n=>n[0]).slice(0,2).join('')}</span>;}
 export function Picker({label,value,onChange,options,name}:{label:string;value?:string;onChange?:(v:string)=>void;options:readonly string[];name?:string}){return <Select name={name} value={value} onValueChange={onChange} defaultValue={value?undefined:options[0]}><SelectTrigger aria-label={label} className="picker"><SelectValue placeholder={label}/></SelectTrigger><SelectContent>{options.map(o=><SelectItem value={o} key={o}>{o}</SelectItem>)}</SelectContent></Select>;}
 export function Field({label,children}:{label:string;children:ReactNode}){return <div className="field"><Label>{label}</Label>{children}</div>;}
-export function SearchInput({value,onChange,placeholder='Search contacts…'}:{value:string;onChange:(v:string)=>void;placeholder?:string}){return <div className="search-input"><Search size={17}/><Input aria-label={placeholder} placeholder={placeholder} value={value} onChange={e=>onChange(e.target.value)}/></div>;}
+const compactSearchQuery='(max-width: 760px)';
+function subscribeCompactSearch(listener:()=>void){const query=window.matchMedia(compactSearchQuery);query.addEventListener('change',listener);return()=>query.removeEventListener('change',listener);}
+const compactSearchSnapshot=()=>window.matchMedia(compactSearchQuery).matches;
+const serverSearchSnapshot=()=>false;
+export function SearchInput({value,onChange,placeholder='Search contacts…'}:{value:string;onChange:(v:string)=>void;placeholder?:string}){const compact=useSyncExternalStore(subscribeCompactSearch,compactSearchSnapshot,serverSearchSnapshot);return <div className="search-input"><Search size={17}/><Input aria-label={placeholder} placeholder={compact?'Search…':placeholder} value={value} onChange={e=>onChange(e.target.value)}/></div>;}
 export function Empty({title,description,action}:{title:string;description:string;action?:ReactNode}){return <div className="empty-state"><Inbox size={28}/><h3>{title}</h3><p>{description}</p>{action}</div>;}
 export function Metric({label,value,hint}:{label:string;value:string|number;hint?:string;icon?:ReactNode;tone?:string}){return <Card className="metric"><CardContent><div className="metric-label">{label}</div><strong>{typeof value==='string'&&value.startsWith('AED ')?<><span className="metric-currency">AED </span>{value.slice(4)}</>:value}</strong>{hint&&<p className="metric-hint">{hint}</p>}</CardContent></Card>;}
 export function SectionTitle({title,aside,icon}:{title:string;aside?:ReactNode;icon?:ReactNode}){return <div className="section-title"><h2>{icon}{title}</h2>{aside}</div>;}
