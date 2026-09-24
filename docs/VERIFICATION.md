@@ -15,3 +15,13 @@ Verified on 24 September 2026 against the production build.
 - No browser console errors or warnings during the tested flows.
 
 All communications, AI actions, market figures and launch details are demo simulations. Persistence is local to each browser; there is no shared database or authentication.
+
+## HandyOS interface alignment — 24 September 2026
+
+- Simplified dashboard to three summary cards, daily priorities and a compact assistant review list.
+- Reworked sidebar into Workspace, Growth and AI assistant sections; compact brand, sidebar search, profile footer and persistent desktop collapse.
+- Moved campaign creation to the page header; removed decorative dashboard widgets and promotional banners.
+- Contact and deal tables use single-line records, external filters and keyboard-accessible record buttons.
+- Verified desktop layout at 1440 × 1000 and mobile layout at 390 × 844. Mobile page width equals viewport width; daily priorities retain their priority and due time without horizontal scrolling.
+- Verified contact search and detail/edit dialogs, collapsed-sidebar navigation, campaign creation, mobile menu closure on navigation, assistant queue layout and persistent task completion after refresh.
+- Production build and TypeScript passed; ESLint passed without warnings. Browser error/warning log was empty during local checks.

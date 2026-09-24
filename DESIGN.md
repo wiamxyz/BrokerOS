@@ -15,3 +15,11 @@ Use actual shadcn source components, based on Radix: Button, Card, Badge, Dialog
 On mobile, navigation moves into a sheet; close it when a destination is chosen. Keep scrolling tables and pipeline boards inside their own containers. Forms and detail panels fit the viewport. Entrance animation is subtle and disabled for reduced-motion preferences.
 
 Lofty informed workflow and information hierarchy only. Do not reuse its logo, copy, promotional claims or product art. All outreach, AI suggestions, launch facts and market numbers are demo concepts, with explicit labeling.
+
+## HandyOS alignment — September 2026
+
+Use the current HandyOS interface as the concrete layout reference: 260px soft gray sidebar, a 32px charcoal brand mark, 16px wordmark, 40px navigation rows, sentence-case section labels and a plain profile footer. Desktop navigation collapses into an icon rail; mobile navigation uses a shadcn sheet. Search belongs in navigation. The top bar contains only the page title, notifications and the primary action.
+
+Keep the dashboard flat: three simple summary cards, a daily priorities table and a compact review list. Do not restore the greeting hero, promotional assistant quote, progress ring or decorative pipeline chart. Summary cards use labels and values, with optional useful hints and no icon decoration.
+
+Use one-line contact and deal tables with filters outside the table frame, 54px rows, 24px outer corners and keyboard-accessible record buttons. Status pills use a small dot and sparse semantic color. Keep supporting information inside detail sheets. Use 20px page titles, 18px section titles, 14px body text, 24–32px spacing, thin neutral borders and no shadows. Mobile summary cards remain compact in three columns; wide tables scroll within their own frame.
