@@ -453,3 +453,15 @@ body{font-size:14px;}
  .workspace-search-field input:focus-visible{outline:none;border-color:var(--ring);}
  .workspace-search-empty{padding:48px 12px;}
 }
+
+.workspace-search-section+ .workspace-search-section{margin-top:24px;}
+.workspace-search-section>h2{font-size:15px;line-height:24px;font-weight:600;margin:0 8px 10px;}
+.workspace-search-title-line{display:flex;align-items:center;gap:12px;}
+.workspace-search-title-line .workspace-search-title{flex:1;min-width:0;}
+.workspace-search-kind{flex-shrink:0;color:var(--muted-foreground);font-size:11px;line-height:18px;}
+.search-related-list{display:flex;flex-direction:column;gap:6px;}
+.search-related-row[data-slot="button"]{height:auto;min-height:64px;padding:12px;text-align:left;justify-content:flex-start;white-space:normal;gap:12px;}
+.search-related-row>span{flex:1;min-width:0;}
+.search-related-row strong{display:block;font-size:14px;font-weight:500;}
+.search-related-row small{display:block;font-size:12px;color:var(--muted-foreground);margin-top:4px;line-height:1.5;}
+@media(max-width:760px){.workspace-search-section>h2{font-size:16px;margin:0 0 12px;}}

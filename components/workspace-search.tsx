@@ -2,25 +2,34 @@
 
 import {useCallback,useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
-import {Search,X,MessageCircle,UserRound,Handshake} from 'lucide-react';
+import {Search,X,MessageCircle,UserRound,Handshake,Building2,ListTodo,Megaphone,Sparkles,LayoutDashboard,Users,ChartNoAxesCombined,Settings} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
 import {useCRM} from '@/components/crm-provider';
 import {chatsFor} from '@/lib/assistant-chat';
-import {recentWorkspaceItems,searchWorkspace,workspaceItems} from '@/lib/workspace-search';
+import {attentionWorkspacePages,recentWorkspaceItems,searchWorkspace,workspaceItems,SEARCH_KIND_LABELS} from '@/lib/workspace-search';
+import {BUILDINGS,today,type RecentItem} from '@/lib/model';
 
-export function WorkspaceSearch({onClose,onContact,onDeal}:{onClose:()=>void;onContact:(id:string)=>void;onDeal:(id:string)=>void}){
- const{data}=useCRM();
+const kindIcons={page:LayoutDashboard,project:Building2,contact:UserRound,deal:Handshake,task:ListTodo,campaign:Megaphone,review:Sparkles,chat:MessageCircle};
+const pageIcons:Record<string,typeof Search>={today:LayoutDashboard,contacts:Users,owners:Building2,deals:Handshake,tasks:ListTodo,campaigns:Megaphone,chat:MessageCircle,assistant:Sparkles,insights:ChartNoAxesCombined,settings:Settings};
+
+export function WorkspaceSearch({onClose,onRecord}:{onClose:()=>void;onRecord:(item:RecentItem)=>void}){
+ const{data,rememberOpened}=useCRM();
  const[query,setQuery]=useState('');
  const input=useRef<HTMLInputElement>(null);
  const panel=useRef<HTMLDivElement>(null);
  const attachPanel=useCallback((node:HTMLDivElement|null)=>{panel.current=node;if(node){node.style.setProperty('--search-viewport-height',`${window.visualViewport?.height??window.innerHeight}px`);node.style.setProperty('--search-viewport-top',`${window.visualViewport?.offsetTop??0}px`);}},[]);
- const items=workspaceItems(data,chatsFor(data));
- const recent=recentWorkspaceItems(data,items);
+ const items=workspaceItems(data,chatsFor(data),{today:today(),buildings:BUILDINGS});
+ const recent=recentWorkspaceItems(data,items).filter(item=>item.kind!=='page').slice(0,5);
  const searching=Boolean(query.trim());
- const results=searching?searchWorkspace(items,query):recent.length?recent:items.filter(item=>item.kind==='chat').filter((item,index,chats)=>chats.findIndex(chat=>chat.title===item.title)===index).slice(0,3);
- const heading=searching?'Results':recent.length?'Last opened':'Suggested';
+ const results=searchWorkspace(items,query);
+ const attention=attentionWorkspacePages(items);
+ const sections=searching?[{title:'Results',items:results}]:[
+  {title:'Needs attention',items:attention},
+  {title:'Workspace',items:items.filter(item=>item.kind==='page'&&!item.needsAttention)},
+  {title:'Last opened',items:recent}
+ ].filter(section=>section.items.length);
 
  useEffect(()=>{
   const viewport=window.visualViewport;
@@ -39,23 +48,24 @@ export function WorkspaceSearch({onClose,onContact,onDeal}:{onClose:()=>void;onC
 
  return <Dialog open onOpenChange={open=>{if(!open)onClose();}}>
   <DialogContent ref={attachPanel} className="workspace-search-dialog" showCloseButton={false} onOpenAutoFocus={event=>{event.preventDefault();input.current?.focus({preventScroll:true});}}>
-   <DialogHeader className="workspace-search-heading"><DialogTitle>Search your workspace</DialogTitle><DialogDescription>Find contacts, deals and assistant conversations.</DialogDescription></DialogHeader>
+   <DialogHeader className="workspace-search-heading"><DialogTitle>Search your workspace</DialogTitle><DialogDescription>Find any page, client, project, deal, task or conversation.</DialogDescription></DialogHeader>
    <div className="workspace-search-controls">
-    <div className="workspace-search-field"><Search aria-hidden="true"/><Input ref={input} type="search" inputMode="search" enterKeyHint="search" aria-label="Search contacts, deals and chats" aria-controls="workspace-search-results" autoComplete="off" placeholder="Search" value={query} onChange={event=>setQuery(event.target.value)} onKeyDown={event=>{if(event.key==='Enter'&&!event.nativeEvent.isComposing&&window.matchMedia('(max-width:760px)').matches)event.currentTarget.blur();}}/></div>
+    <div className="workspace-search-field"><Search aria-hidden="true"/><Input ref={input} type="search" inputMode="search" enterKeyHint="search" aria-label="Search entire workspace" aria-controls="workspace-search-results" autoComplete="off" placeholder="Search" value={query} onChange={event=>setQuery(event.target.value)} onKeyDown={event=>{if(event.key==='Enter'&&!event.nativeEvent.isComposing&&window.matchMedia('(max-width:760px)').matches)event.currentTarget.blur();}}/></div>
     <Button variant="outline" size="icon" className="workspace-search-close" aria-label="Close search" onClick={onClose}><X/></Button>
    </div>
-   <section className="workspace-search-results" id="workspace-search-results" aria-labelledby="workspace-search-section-title">
-    <h2 id="workspace-search-section-title">{heading}</h2>
+   <div className="workspace-search-results" id="workspace-search-results">
     <p role="status" className="sr-only">{searching?`${results.length} matching results`:''}</p>
-    <div className="workspace-search-list">
-     {results.map(item=>{
-      const Icon=item.kind==='chat'?MessageCircle:item.kind==='contact'?UserRound:Handshake;
-      const content=<><span className="workspace-search-icon"><Icon aria-hidden="true"/></span><span className="workspace-search-copy"><span className="workspace-search-title">{item.title}</span><span className="workspace-search-preview">{item.preview.replace(/\s+/g,' ')}</span></span></>;
-      return item.kind==='chat'?<Button asChild variant="ghost" className="workspace-search-row" key={`${item.kind}:${item.id}`}><Link href={`/chat/?chat=${encodeURIComponent(item.id)}`} aria-label={`Open chat: ${item.title}`} onClick={onClose}>{content}</Link></Button>:<Button variant="ghost" className="workspace-search-row" key={`${item.kind}:${item.id}`} aria-label={`Open ${item.kind}: ${item.title}`} onClick={()=>{onClose();if(item.kind==='contact')onContact(item.id);else onDeal(item.id);}}>{content}</Button>;
+    {sections.map(section=><section className="workspace-search-section" key={section.title} aria-label={section.title}>
+    <h2>{section.title}</h2><div className="workspace-search-list">
+     {section.items.map(item=>{
+      const Icon=item.kind==='page'?(pageIcons[item.id]??LayoutDashboard):kindIcons[item.kind];
+      const content=<><span className="workspace-search-icon"><Icon aria-hidden="true"/></span><span className="workspace-search-copy"><span className="workspace-search-title-line"><span className="workspace-search-title">{item.title}</span><span className="workspace-search-kind">{SEARCH_KIND_LABELS[item.kind]}</span></span><span className="workspace-search-preview">{item.preview.replace(/\s+/g,' ')}</span></span></>;
+      const open=()=>{rememberOpened({kind:item.kind,id:item.id});onClose();if(!item.href)onRecord(item);};
+      return item.href?<Button asChild variant="ghost" className="workspace-search-row" key={`${item.kind}:${item.id}`}><Link href={item.href} aria-label={`Open ${SEARCH_KIND_LABELS[item.kind].toLowerCase()}: ${item.title}`} onClick={open}>{content}</Link></Button>:<Button variant="ghost" className="workspace-search-row" key={`${item.kind}:${item.id}`} aria-label={`Open ${SEARCH_KIND_LABELS[item.kind].toLowerCase()}: ${item.title}`} onClick={open}>{content}</Button>;
      })}
-    </div>
-    {results.length===0&&<div className="workspace-search-empty"><Search aria-hidden="true"/><h3>{searching?'No matches':'Nothing opened yet'}</h3><p>{searching?'Try a name, building, lead source or something from a conversation.':'Open a contact, deal or conversation to find it here next time.'}</p></div>}
-   </section>
+    </div></section>)}
+    {searching&&results.length===0&&<div className="workspace-search-empty"><Search aria-hidden="true"/><h3>No matches</h3><p>Try a page, client, project, task or campaign.</p></div>}
+   </div>
   </DialogContent>
  </Dialog>;
 }
