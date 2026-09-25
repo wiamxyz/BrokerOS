@@ -530,3 +530,11 @@ body{font-size:14px;}
  .mobile-nav .profile{height:40px;min-height:40px;}
 }
 @media(prefers-reduced-motion:reduce){.sidebar{transition:none;}}
+
+/* Keep notifications alongside search in navigation, with a collapsed-desktop fallback. */
+.sidebar-brand-actions{display:flex;align-items:center;flex-shrink:0;gap:8px;}
+.sidebar-brand-actions .notification-button[data-slot="button"]{width:32px;height:32px;min-height:32px;padding:0;border-radius:50%;border-color:var(--sidebar-border);background:transparent;color:var(--muted-foreground);box-shadow:none;}
+.sidebar-brand-actions .notification-button svg{width:16px;height:16px;}
+.sidebar-brand-actions .notification-button:hover{background:var(--sidebar-accent);}
+.topbar-actions>.header-notifications{display:none;}
+@media(min-width:761px){.sidebar-collapsed .topbar-actions>.header-notifications{display:inline-flex;}}
