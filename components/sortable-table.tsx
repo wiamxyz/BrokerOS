@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, type ReactNode } from "react"
-import {ArrowDownIcon,ArrowUpIcon,ArrowUpDownIcon} from "@/components/icons";
+import {ArrowDownIcon,ArrowUpIcon} from "@/components/icons";
 
 import { Button } from "@/components/ui/button"
 import { TableHead } from "@/components/ui/table"
@@ -20,6 +20,6 @@ export function useTableSort<T>(rows: T[], columns: Record<string, (row: T) => V
 }
 export function SortHead({ column, sorting, children, right = false }: { column: string; sorting: { sort: { key: string; direction: "ascending" | "descending" } | null; toggle: (key: string) => void }; children: ReactNode; right?: boolean }) {
   const direction = sorting.sort?.key === column ? sorting.sort.direction : "none"
-  const Icon = direction === "ascending" ? ArrowUpIcon : direction === "descending" ? ArrowDownIcon : ArrowUpDownIcon
-  return <TableHead aria-sort={direction} className={right ? "text-right" : undefined}><Button variant="ghost" type="button" onClick={() => sorting.toggle(column)} className={`flex min-h-11 w-full justify-start items-center gap-1.5 rounded-sm text-left hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring ${right ? "justify-end" : ""}`} title={`Sort ${direction === "ascending" ? "descending" : "ascending"}`}>{children}<Icon aria-hidden className={`size-3 shrink-0 ${direction === "none" ? "opacity-40" : ""}`}/></Button></TableHead>
+  const Icon = direction === "ascending" ? ArrowUpIcon : direction === "descending" ? ArrowDownIcon : null
+  return <TableHead aria-sort={direction} className={right ? "text-right" : undefined}><Button variant="ghost" type="button" onClick={() => sorting.toggle(column)} className={`flex min-h-11 w-full justify-start items-center gap-1.5 rounded-sm text-left hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring ${right ? "justify-end" : ""}`} title={`Sort ${direction === "ascending" ? "descending" : "ascending"}`}>{children}{Icon&&<Icon aria-hidden className="size-3 shrink-0"/>}</Button></TableHead>
 }

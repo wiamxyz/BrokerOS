@@ -4,7 +4,7 @@ Use the same blend established in HandyOS: ChatGPT’s restrained navigation and
 
 ## Shared visual language
 
-Light gray sidebar, white main canvas, charcoal text, quiet thin borders, no decorative shadows. A stable BrokerOS wordmark is confined to navigation. Rounded buttons and search controls sit alongside practical, structured forms and tables. A profile link opens settings. Main page titles and primary create actions live in the top bar. Status color is sparse, meaningful and labeled: closing urgency, owner acquisition and nurture.
+Soft gray-green sidebar and main canvas, lighter cards, charcoal-green text, teal accents and quiet thin borders. Keep shadows restrained. A stable BrokerOS wordmark is confined to navigation. Rounded buttons and search controls sit alongside practical, structured forms and tables. A profile link opens settings. Main page titles and primary create actions live in the top bar. Status color is sparse, meaningful and labeled: closing urgency, owner acquisition and nurture.
 
 Use compact 14px top-bar titles, 14–16px working text, 12px secondary metadata and larger summary numbers. Use 24–32px section spacing. Do not add decorative widgets. Focus the opening dashboard on closing buyers, owner conversations, approval work and task completion. Records open in contextual detail sheets; creation and editing use centered shadcn dialogs.
 
@@ -18,7 +18,7 @@ Lofty informed workflow and information hierarchy only. Do not reuse its logo, c
 
 ## HandyOS alignment — September 2026
 
-Use HandyOS main at `9b80ce9` (September 25) as the current layout reference: 320px warm gray sidebar, a plain 17px wordmark, 32px desktop navigation rows and 13px muted group labels. Desktop collapse hides the sidebar completely. The 46px top bar exposes sidebar, history and New Chat controls when collapsed. The expanded sidebar pins these controls, the brand/search row and New Chat above its scrolling navigation. Mobile uses a shadcn sheet and keeps history controls inside it.
+Use HandyOS main at `9b80ce9` (September 25) as the current layout reference: 320px gray-green sidebar, a plain 17px wordmark, 32px desktop navigation rows and 13px muted group labels. Desktop collapse hides the sidebar completely. The 46px top bar exposes sidebar, history and New Chat controls when collapsed. The expanded sidebar pins these controls, the brand/search row and New Chat above its scrolling navigation. Mobile uses a shadcn sheet and keeps history controls inside it.
 
 Keep the dashboard flat: three simple summary cards, a daily priorities table and a compact review list. Do not restore the greeting hero, promotional assistant quote, progress ring or decorative pipeline chart. Summary cards use labels and values, with optional useful hints and no icon decoration.
 
@@ -34,7 +34,7 @@ See `docs/HANDYOS-UI-REVIEW.md` for the source-to-BrokerOS mapping and boundarie
 
 ## Mobile sidebar reference refinement
 
-The mobile menu follows the latest HandyOS refinement of the user's ChatGPT reference. Use a warm `#f2f0ef` sheet up to `min(82vw, 352px)`, a 17px wordmark, 40px navigation rows with 14px labels and 16px Iconly outline icons, and subdued 13px group labels. Keep Workspace, Growth and AI assistant independently collapsible and remember the user's choices. Conversations belong inside AI assistant, without another group heading or indentation. Highlight the selected conversation without changing its order when opened.
+The mobile menu follows the latest HandyOS refinement of the user's ChatGPT reference. Use a gray-green `#dfe3df` sheet up to `min(82vw, 352px)`, a 17px wordmark, 40px navigation rows with 14px labels and 16px Iconly outline icons, and subdued 13px group labels. Keep Workspace, Growth and AI assistant independently collapsible and remember the user's choices. Conversations belong inside AI assistant, without another group heading or indentation. Highlight the selected conversation without changing its order when opened.
 
 Keep the header and profile footer fixed while the middle scrolls. New Chat is pinned at the top. Keep distinct sidebar open/close icons, focus management, a light backdrop and subtle edge separation. Header actions use transparent backgrounds, restrained hover feedback and compact labels. Notifications sit beside Search in the sidebar brand row on desktop and mobile. Preserve the circular outline, unread indicator and an 8px gap between sidebar controls. The desktop header shows a notification shortcut only while the sidebar is fully collapsed, retaining a 12px gap from the create action. On mobile, open notifications from the navigation sheet.
 
@@ -47,3 +47,14 @@ On mobile, sidebar search opens an edge-to-edge white screen, focuses a pill-sha
 Start search with Needs attention: actionable workspace pages ranked by closing work, due reminders, engaged owners, pending reviews and campaign follow-up. Derive counts from current browser data and remove urgency when work is resolved. Show the remaining pages under Workspace, then recent records under Last opened. Chats must not dominate the initial screen.
 
 Index every page, clients, projects/properties, deals, tasks, campaigns, review items and conversation content. Use familiar aliases such as clients, reminders and approvals. Rank exact names first and workspace records ahead of conversations on equally relevant matches. Show a type icon, title, one-line preview and quiet type label. Open pages directly, records in their existing editor/detail, and projects in a contextual sheet with linked clients, deals, campaigns and available sample market references. Project context is derived from existing property data, not a separate backend. Store at most twelve recently opened references with the browser demo data and skip missing records. Preserve an informative empty state.
+
+
+## Latest HandyOS refinements — September 25
+
+Reference HandyOS `1e1876116b05580fd193bfe7ce4d27f529426d86`. Use its soft gray-green and teal palette throughout the shell, forms, tables, cards and menus. Status pills use muted sage, sand, rose and neutral tones with readable labels. Reserve the teal gradient for existing financial summary cards: Active deal value on Dashboard and Closed won on Deals.
+
+Remove the divider beneath New Chat. Resize the desktop sidebar from its edge between 240px and 480px, constrained to preserve main content space. Remember the preferred width across pages, refresh and collapse/expand; mobile navigation retains its independent width and must not overwrite that preference. The edge also supports arrow keys, Shift for larger steps, Home and End.
+
+Center the assistant welcome title and supporting sentence. Keep its three suggested prompts as quiet text actions immediately above the composer. Remove decorative sparkle icons from the welcome and response byline. Keep Iconly icons where they identify useful controls.
+
+Show a direction arrow only on the currently sorted table column; keep all headings keyboard-operable and expose their sort state. Do not place an arrow beside a label inside a filled CTA. Use text alone or a relevant non-arrow action icon. Standalone navigation arrows and the icon-only send control remain.

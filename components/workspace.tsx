@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import {useEffect,useState,useRef} from 'react';
+import {useEffect,useState,useRef,useId,type CSSProperties} from 'react';
 import {LayoutDashboard,Users,Building2,Handshake,ListTodo,Megaphone,Sparkles,ChartNoAxesCombined,Search,Bell,Plus,PanelLeft,ChevronRight,PanelLeftClose,SquarePen,Settings} from "@/components/icons";
 
 import {Button} from '@/components/ui/button';
@@ -19,10 +19,13 @@ import {WorkspaceSearch} from '@/components/workspace-search';
 import {SearchRecordDetail} from '@/components/search-record-detail';
 import {SidebarChats,ChatHeaderTitle} from '@/components/sidebar-chats';
 import {HistoryControls} from '@/components/navigation-history';
+import {SidebarResizeHandle} from '@/components/sidebar-resize-handle';
+import {useSidebarWidth} from '@/lib/use-sidebar-width';
 import {orderedTasks,today,type RecentItem} from '@/lib/model';
 const nav=[{id:'today',label:'Dashboard',icon:LayoutDashboard},{id:'contacts',label:'Contacts',icon:Users},{id:'owners',label:'Owner pipeline',icon:Building2},{id:'deals',label:'Deals',icon:Handshake},{id:'tasks',label:'Tasks & reminders',icon:ListTodo},{id:'campaigns',label:'Campaigns',icon:Megaphone},{id:'chat',label:'New Chat',icon:SquarePen},{id:'assistant',label:'Review queue',icon:Sparkles},{id:'insights',label:'Market insights',icon:ChartNoAxesCombined}];
 export function Workspace({view}:{view:string}){
  const{data,storageError,rememberOpened}=useCRM();const[searchRecord,setSearchRecord]=useState<RecentItem|null>(null);const[mobile,setMobile]=useState(false);const[search,setSearch]=useState(false);const[notifications,setNotifications]=useState(false);const[form,setForm]=useState('');const[contactId,setContactId]=useState('');const[dealId,setDealId]=useState('');
+ const{width,maxWidth,setWidth,saveWidth}=useSidebarWidth();const[resizing,setResizing]=useState(false);const sidebarId=useId();
  const[mobileGroups,setMobileGroups]=useState<Record<string,boolean>>({});
  const[collapsed,setCollapsed]=useState(false);const expandButton=useRef<HTMLButtonElement>(null);const collapseButton=useRef<HTMLButtonElement>(null);const sidebarFocus=useRef(false);const mobileToggle=useRef<HTMLButtonElement>(null);const notificationOrigin=useRef<HTMLButtonElement|null>(null);const[actionTarget,setActionTarget]=useState<HTMLDivElement|null>(null);
  useEffect(()=>{const id=setTimeout(()=>{try{setCollapsed(localStorage.getItem('brokeros-sidebar-collapsed')==='true');const groups=JSON.parse(localStorage.getItem('brokeros-mobile-nav-groups')||'{}');if(groups&&typeof groups==='object'&&!Array.isArray(groups))setMobileGroups(Object.fromEntries(Object.entries(groups).filter(([,value])=>typeof value==='boolean')) as Record<string,boolean>);}catch{}},0);return()=>clearTimeout(id);},[]);
@@ -61,7 +64,7 @@ export function Workspace({view}:{view:string}){
   <div className="sidebar-bottom"><ProfileMenu onNavigate={()=>setMobile(false)}/></div>
  </>;
  const action=view==='deals'?'New deal':view==='tasks'||view==='today'?'Add task':view==='owners'?'Add owner':'Add contact';
- return <div className={`app-shell ${collapsed?'sidebar-collapsed':''}`}><MobileSidebarSwipe openMobile={mobile} setOpenMobile={setMobile}/><aside className="sidebar" inert={collapsed}>{navigation(false)}</aside><Sheet open={mobile} onOpenChange={setMobile}><SheetContent side="left" className="mobile-nav" overlayClassName="mobile-nav-overlay" showCloseButton={false} onCloseAutoFocus={event=>{if(search||notifications)event.preventDefault();}}><SheetHeader className="sr-only"><SheetTitle>Navigation</SheetTitle><SheetDescription>BrokerOS workspace pages</SheetDescription></SheetHeader>{navigation(true)}</SheetContent></Sheet><div className="main-shell"><header className="topbar">
+ return <div className={`app-shell ${collapsed?'sidebar-collapsed':''}`} data-resizing={resizing||undefined} style={{'--sidebar-width':`${width}px`} as CSSProperties}><MobileSidebarSwipe openMobile={mobile} setOpenMobile={setMobile}/><aside id={sidebarId} className="sidebar" inert={collapsed}>{navigation(false)}<SidebarResizeHandle disabled={collapsed} sidebarId={sidebarId} width={width} maxWidth={maxWidth} setWidth={setWidth} saveWidth={saveWidth} setResizing={setResizing}/></aside><Sheet open={mobile} onOpenChange={setMobile}><SheetContent side="left" className="mobile-nav" overlayClassName="mobile-nav-overlay" showCloseButton={false} onCloseAutoFocus={event=>{if(search||notifications)event.preventDefault();}}><SheetHeader className="sr-only"><SheetTitle>Navigation</SheetTitle><SheetDescription>BrokerOS workspace pages</SheetDescription></SheetHeader>{navigation(true)}</SheetContent></Sheet><div className="main-shell"><header className="topbar">
   <div className="header-navigation">
    <Button ref={expandButton} variant="ghost" size="icon-sm" aria-label="Expand sidebar" title="Expand sidebar" className="desktop-expand" onClick={toggleSidebar}><PanelLeft/></Button>
    <Button ref={mobileToggle} variant="ghost" size="icon-sm" aria-label="Open navigation" title="Open navigation" className="mobile-toggle" onClick={()=>setMobile(true)}><PanelLeft/></Button>

@@ -41,3 +41,20 @@ Reviewed all eleven HandyOS commits made on September 25 in Dubai time, through 
 BrokerOS retains its collapsible mobile groups, CRM sections, priority-first global search, circular notifications and reviewed demo actions. HandyOS-specific business areas are not added.
 
 Validation: production build and ESLint pass; 25 tests cover existing CRM/search/assistant behavior and the new bounded navigation history. Browser checks cover collapsed navigation, back navigation, active chat and stable order, mobile groups, search across records, Iconly asset loading, and responsive widths of 320px, 390px and desktop. Notification-to-action spacing remains 12px. No browser console errors were observed.
+
+
+## Latest seven HandyOS changes
+
+Compared HandyOS `9b80ce9` through `1e18761` and applied all relevant UI refinements:
+
+- `5190be2`: removed the line beneath New Chat.
+- `9f949f7`: shared the gray-green/teal palette, lighter card surfaces and restrained financial gradients on Active deal value and Closed won.
+- `2541398`: removed arrows beside filled campaign CTA labels; retained standalone navigation and outline links.
+- `6afc8cd`: added a remembered, bounded desktop sidebar width with pointer and keyboard resizing; mobile sizing remains independent.
+- `5e4a2f4`: centered the assistant welcome and moved shorter text prompts above the composer; removed decorative welcome/byline sparkles.
+- `ed5d66a`: muted status and priority pill colors while retaining labels and semantic distinctions.
+- `1e18761`: only the actively sorted column shows an arrow; all columns remain sortable.
+
+Sidebar notifications, mobile collapsible groups, active chats, bounded history, priority-first search and all CRM/demo action behavior remain available. No backend or integration changes were required.
+
+Validated with a production build, ESLint and all 25 existing tests. Browser checks covered pointer resizing, keyboard bounds, remembered width across refresh and page changes, collapse/expand, independent mobile sizing, the three assistant suggestions, sorted row order and one active sort indicator, filled campaign CTAs, and 320px/390px/1280px layouts. No browser console errors were observed.
