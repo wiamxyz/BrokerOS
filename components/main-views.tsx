@@ -1,7 +1,8 @@
 'use client';
 import Link from 'next/link';
 import {useState} from 'react';
-import {ArrowRight,Building2,Check,Flame,Handshake,ChevronRight} from 'lucide-react';
+import {ArrowRight,Building2,Check,Handshake,ChevronRight} from "@/components/icons";
+import {Flame} from "lucide-react";
 import {Button} from '@/components/ui/button';
 import {Card,CardContent} from '@/components/ui/card';
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/components/ui/table';

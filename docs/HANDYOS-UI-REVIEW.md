@@ -20,3 +20,24 @@ Conversations are an optional addition to the existing version-1 browser workspa
 ## Validation
 
 Production build, TypeScript, ESLint and nine action/gesture tests. Browser checks cover new chats, linked contact detail, reminder creation and persistence, edited owner draft in the queue, unsent campaign creation, profile/settings navigation, sorting and responsive layout. Mobile gesture thresholds have automated coverage; a physical touch-device swipe was not exercised by desktop browser automation.
+
+
+## September 25 update
+
+Reviewed all eleven HandyOS commits made on September 25 in Dubai time, through `9b80ce91c69959bed16b8c000d17488b9ff847f5`. The latest adjustments supersede the earlier rail and mobile footer treatment described above.
+
+| HandyOS change | BrokerOS adaptation |
+| --- | --- |
+| `e8592af`: active chats and stable ordering | Exact conversation highlighted, title shown in the header, opening a chat preserves its position |
+| `640bcb5`, `bbb8351`: warm surfaces and final navigation density | Warm gray 320px sidebar; compact muted groups; unindented chats; 32px desktop and 40px mobile rows |
+| `67d0695`: compact title bar and fully hidden sidebar | 46px header; sidebar moves fully off canvas; controls transfer into the header with keyboard focus |
+| `b653c89`: pinned New Chat | New Chat remains above the scrolling groups on desktop and mobile |
+| `396bfd9`: Iconly animations | Official Iconly artwork and local Lottie assets across navigation, search, assistant and common actions; lazy playback once per hover |
+| `b921f66`: quiet header actions | Transparent create actions with subtle hover/focus feedback; BrokerOS's circular notification button and 12px spacing retained |
+| `c2e1fad`: screen history | Back/forward buttons track this app's current tab trail, including conversations, and stop at its boundary |
+| `c40846d`, `cae51fc`: sidebar icons and static direction symbols | Distinct open/close symbols; no motion on plus signs, chevrons or directional controls |
+| `9b80ce9`: office-building artwork | Same office-building icon used for owner/property context; Contacts keeps people artwork because BrokerOS contacts are individual buyers and owners |
+
+BrokerOS retains its collapsible mobile groups, CRM sections, priority-first global search, circular notifications and reviewed demo actions. HandyOS-specific business areas are not added.
+
+Validation: production build and ESLint pass; 25 tests cover existing CRM/search/assistant behavior and the new bounded navigation history. Browser checks cover collapsed navigation, back navigation, active chat and stable order, mobile groups, search across records, Iconly asset loading, and responsive widths of 320px, 390px and desktop. Notification-to-action spacing remains 12px. No browser console errors were observed.

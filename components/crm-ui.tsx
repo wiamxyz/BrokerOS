@@ -1,6 +1,7 @@
 'use client';
 import { ReactNode,useSyncExternalStore } from 'react';
-import { Search, CircleCheck, Inbox } from 'lucide-react';
+import {Search} from "@/components/icons";
+import {CircleCheck,Inbox} from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';

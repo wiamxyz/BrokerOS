@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, type ReactNode } from "react"
-import { ArrowDownIcon, ArrowUpIcon, ArrowUpDownIcon } from "lucide-react"
+import {ArrowDownIcon,ArrowUpIcon,ArrowUpDownIcon} from "@/components/icons";
+
 import { Button } from "@/components/ui/button"
 import { TableHead } from "@/components/ui/table"
 

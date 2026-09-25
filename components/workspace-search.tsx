@@ -2,7 +2,8 @@
 
 import {useCallback,useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
-import {Search,X,MessageCircle,UserRound,Handshake,Building2,ListTodo,Megaphone,Sparkles,LayoutDashboard,Users,ChartNoAxesCombined,Settings} from 'lucide-react';
+import {Search,X,MessageCircle,UserRound,Handshake,Building2,ListTodo,Megaphone,Sparkles,LayoutDashboard,Users,ChartNoAxesCombined,Settings} from "@/components/icons";
+
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';

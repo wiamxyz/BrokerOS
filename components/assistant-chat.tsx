@@ -2,7 +2,8 @@
 import {Suspense,useEffect,useRef,useState,Fragment} from 'react';
 import {useRouter,useSearchParams} from 'next/navigation';
 import Link from 'next/link';
-import {ArrowUp,Copy,Sparkles,Check,ClipboardCheck} from 'lucide-react';
+import {ArrowUp,Copy,Sparkles,Check,ClipboardCheck} from "@/components/icons";
+
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';

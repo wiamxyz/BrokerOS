@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import {ArrowUpRight,UserRound,Handshake,Megaphone} from 'lucide-react';
+import {ArrowUpRight,UserRound,Handshake,Megaphone} from "@/components/icons";
+
 import {Button} from '@/components/ui/button';
 import {Sheet,SheetContent,SheetHeader,SheetTitle,SheetDescription} from '@/components/ui/sheet';
 import {useCRM} from '@/components/crm-provider';

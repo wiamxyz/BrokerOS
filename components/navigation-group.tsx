@@ -1,7 +1,8 @@
 'use client';
 
 import type {ReactNode} from 'react';
-import {ChevronRight} from 'lucide-react';
+import {ChevronRight} from "@/components/icons";
+
 import {Button} from '@/components/ui/button';
 import {Collapsible,CollapsibleContent,CollapsibleTrigger} from '@/components/ui/collapsible';
 

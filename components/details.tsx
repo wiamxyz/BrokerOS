@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
-import {Building2,Phone,Plus,Pencil,CalendarDays,Sparkles,Pause,Play,ArrowUpRight,MessageSquare} from 'lucide-react';
+import {Building2,Plus,Pencil,CalendarDays,Sparkles,ArrowUpRight,MessageSquare} from "@/components/icons";
+import {Phone,Pause,Play} from "lucide-react";
 import {Sheet,SheetContent,SheetHeader,SheetTitle,SheetDescription} from '@/components/ui/sheet';
 import {Button} from '@/components/ui/button';
 import {Textarea} from '@/components/ui/textarea';

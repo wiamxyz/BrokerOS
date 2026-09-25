@@ -6,7 +6,7 @@ Use the same blend established in HandyOS: ChatGPT’s restrained navigation and
 
 Light gray sidebar, white main canvas, charcoal text, quiet thin borders, no decorative shadows. A stable BrokerOS wordmark is confined to navigation. Rounded buttons and search controls sit alongside practical, structured forms and tables. A profile link opens settings. Main page titles and primary create actions live in the top bar. Status color is sparse, meaningful and labeled: closing urgency, owner acquisition and nurture.
 
-Use 20px page titles, 14–16px working text, 12px secondary metadata and larger summary numbers. Use 24–32px section spacing. Do not add decorative widgets. Focus the opening dashboard on closing buyers, owner conversations, approval work and task completion. Records open in contextual detail sheets; creation and editing use centered shadcn dialogs.
+Use compact 14px top-bar titles, 14–16px working text, 12px secondary metadata and larger summary numbers. Use 24–32px section spacing. Do not add decorative widgets. Focus the opening dashboard on closing buyers, owner conversations, approval work and task completion. Records open in contextual detail sheets; creation and editing use centered shadcn dialogs.
 
 ## Interaction language
 
@@ -18,11 +18,11 @@ Lofty informed workflow and information hierarchy only. Do not reuse its logo, c
 
 ## HandyOS alignment — September 2026
 
-Use the current HandyOS interface as the concrete layout reference: 260px soft gray sidebar, a 32px charcoal brand mark, 16px wordmark, 40px navigation rows, sentence-case section labels and a plain profile footer. Desktop navigation collapses into an icon rail; mobile navigation uses a shadcn sheet. Search belongs in navigation. The top bar contains only the page title, notifications and the primary action.
+Use HandyOS main at `9b80ce9` (September 25) as the current layout reference: 320px warm gray sidebar, a plain 17px wordmark, 32px desktop navigation rows and 13px muted group labels. Desktop collapse hides the sidebar completely. The 46px top bar exposes sidebar, history and New Chat controls when collapsed. The expanded sidebar pins these controls, the brand/search row and New Chat above its scrolling navigation. Mobile uses a shadcn sheet and keeps history controls inside it.
 
 Keep the dashboard flat: three simple summary cards, a daily priorities table and a compact review list. Do not restore the greeting hero, promotional assistant quote, progress ring or decorative pipeline chart. Summary cards use labels and values, with optional useful hints and no icon decoration.
 
-Use one-line contact and deal tables with filters outside the table frame, 54px rows, 24px outer corners and keyboard-accessible record buttons. Status pills use a small dot and sparse semantic color. Keep supporting information inside detail sheets. Use 20px page titles, 18px section titles, 14px body text, 24–32px spacing, thin neutral borders and no shadows. Mobile summary cards remain compact in three columns; wide tables scroll within their own frame.
+Use one-line contact and deal tables with filters outside the table frame, 54px rows, 24px outer corners and keyboard-accessible record buttons. Status pills use a small dot and sparse semantic color. Keep supporting information inside detail sheets. Use 14px top-bar titles, 18px section titles, 14px body text, 24–32px spacing, thin neutral borders and no shadows. Mobile summary cards remain compact in three columns; wide tables scroll within their own frame.
 
 ## Latest HandyOS interaction refinements
 
@@ -34,9 +34,11 @@ See `docs/HANDYOS-UI-REVIEW.md` for the source-to-BrokerOS mapping and boundarie
 
 ## Mobile sidebar reference refinement
 
-The mobile menu uses the user's ChatGPT sidebar screenshot as a spacing and hierarchy reference. Use a white sheet up to 320px wide, a 24px BrokerOS wordmark, a circular search action in the header, 48px navigation rows with 16px labels and 21px outline icons, and 15px semibold group headings. Keep Workspace, Growth and AI assistant independently collapsible and remember the user's choices. Recent conversations belong inside AI assistant, without a separate group heading.
+The mobile menu follows the latest HandyOS refinement of the user's ChatGPT reference. Use a warm `#f2f0ef` sheet up to `min(82vw, 352px)`, a 17px wordmark, 40px navigation rows with 14px labels and 16px Iconly outline icons, and subdued 13px group labels. Keep Workspace, Growth and AI assistant independently collapsible and remember the user's choices. Conversations belong inside AI assistant, without another group heading or indentation. Highlight the selected conversation without changing its order when opened.
 
-Keep the menu header and footer fixed while the middle scrolls. Put a monochrome Chat pill and circular profile/settings menu in the footer. Preserve a clearly labeled close button, keyboard focus management, a light backdrop and a subtle edge shadow for separation. Keep desktop navigation compact and retain its profile footer and icon rail. Notification bells use a circular outline button on both screen sizes.
+Keep the header and profile footer fixed while the middle scrolls. New Chat is pinned at the top. Keep distinct sidebar open/close icons, focus management, a light backdrop and subtle edge separation. Header actions use transparent backgrounds, restrained hover feedback and compact labels. Notification bells retain their circular outline and an explicit 12px gap from adjacent actions on both screen sizes.
+
+Use official Iconly artwork with locally bundled animations. Icons play once per desktop pointer entry, reset on exit, and remain still on touch devices or when reduced motion is requested. Plus signs, chevrons and directional controls stay static. See `docs/iconly.md` for sources and behavior.
 
 ## Sidebar search reference
 

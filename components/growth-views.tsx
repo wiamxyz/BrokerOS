@@ -1,7 +1,8 @@
 'use client';
 import {useState} from 'react';
 import {createPortal} from 'react-dom';
-import {ArrowRight,ArrowUpRight,Building2,Check,CheckCheck,FileText,Megaphone,MessageSquare,Plus,Send,Sparkles,Users,Link2,RotateCcw,ShieldCheck} from 'lucide-react';
+import {ArrowRight,ArrowUpRight,Building2,Check,CheckCheck,FileText,Megaphone,MessageSquare,Plus,Send,Sparkles,Users} from "@/components/icons";
+import {Link2,RotateCcw,ShieldCheck} from "lucide-react";
 import {Button} from '@/components/ui/button';
 import {Card,CardContent} from '@/components/ui/card';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
