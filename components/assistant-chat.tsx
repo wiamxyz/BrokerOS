@@ -1,5 +1,5 @@
 'use client';
-import {Suspense,useEffect,useRef,useState,Fragment} from 'react';
+import {Suspense,useEffect,useEffectEvent,useRef,useState,Fragment} from 'react';
 import {useRouter,useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import {ArrowUp,Copy,Check,ClipboardCheck} from "@/components/icons";
@@ -10,8 +10,13 @@ import {Textarea} from '@/components/ui/textarea';
 import {Card,CardContent} from '@/components/ui/card';
 import {useCRM} from '@/components/crm-provider';
 import {Field,Pill} from '@/components/crm-ui';
-import {chatsFor,saveChat,chatSuggestions,prepareReply,applyChatProposal} from '@/lib/assistant-chat';
+import {chatsFor,saveChat,chatSuggestions,applyChatProposal} from '@/lib/assistant-chat';
 import {uid,ChatMessage,ChatProposal} from '@/lib/model';
+
+import {useValueConversation} from '@/components/value-tags-provider';
+import dynamic from 'next/dynamic';
+import type {InlineComposerHandle} from '@/components/inline-value-composer';
+const InlineValueComposer=dynamic(()=>import('@/components/inline-value-composer').then(module=>module.InlineValueComposer),{ssr:false});
 
 type Props={onContact:(id:string)=>void;onDeal:(id:string)=>void};
 export function AssistantChatView(props:Props){return <Suspense fallback={<p className="quiet-note">Loading conversation…</p>}><ChatRoute {...props}/></Suspense>;}
@@ -27,18 +32,28 @@ function LinkedText({text,onContact,onDeal}:Props&{text:string}){
  parts.push(text.slice(end));return <>{parts.map((part,i)=><Fragment key={i}>{part}</Fragment>)}</>;
 }
 function ChatView({id,...recordActions}:Props&{id:string|null}){
- const{data,setData,storageError,rememberOpened}=useCRM();const router=useRouter();
- const chat=chatsFor(data).find(c=>c.id===id);
- const[draft,setDraft]=useState('');const[copied,setCopied]=useState('');const[notice,setNotice]=useState('');const end=useRef<HTMLDivElement>(null);
- const activeChatId=chat?.id;const messageCount=chat?.messages.length;
- useEffect(()=>{if(activeChatId)rememberOpened({kind:'chat',id:activeChatId});},[activeChatId,rememberOpened]);
- useEffect(()=>{if(activeChatId)end.current?.scrollIntoView({block:'end'});},[activeChatId,messageCount]);
- function send(question=draft){const text=question.trim();if(!text)return;const chatId=chat?.id??uid();const userId=uid(),responseId=uid();setData(s=>{const current=chatsFor(s).find(c=>c.id===chatId);return saveChat(s,{id:chatId,title:current?.title??text.slice(0,64),messages:[...(current?.messages??[]),{id:userId,role:'user',text},prepareReply(text,s,responseId)]});});setDraft('');if(!chat)router.push(`/chat/?chat=${encodeURIComponent(chatId)}`);}
- async function copy(message:ChatMessage){try{await navigator.clipboard.writeText(message.text);setCopied(message.id);}catch{setNotice('Select the response text to copy it.');}}
+ const {storageError,rememberOpened}=useCRM();const router=useRouter();
+ const conversation=useValueConversation();const {chat,draft,parts,caret,insertion,composerKey,setComposer,setCaret,open}=conversation;
+ const composer=useRef<InlineComposerHandle>(null);
+ const activate=useEffectEvent(()=>{conversation.closeChat();if(id)conversation.selectChat(id,false);else if(conversation.chat)conversation.newChat(false);});
+ useEffect(()=>{activate();},[id]);
+ const activeId=chat?.id;
+ useEffect(()=>{if(activeId)rememberOpened({kind:'chat',id:activeId});},[activeId,rememberOpened]);
+ function send(question?:string){if(!(question??draft).trim())return;const chatId=conversation.sendMessage(question);if(!id)router.replace(`/chat/?chat=${encodeURIComponent(chatId)}`);}
  return <div className="chat-workspace"><div className="chat-column">
-  {chat?<div className="chat-messages"><p className="quiet-note">{chat.title} · Demo conversation</p>{chat.messages.map(message=><div className={`chat-message ${message.role}`} key={message.id}>{message.role==='assistant'&&<div className="chat-byline">BrokerOS assistant</div>}<div className="chat-text"><LinkedText text={message.text} {...recordActions}/></div>{message.proposal&&<ProposalCard chatId={chat.id} message={message} {...recordActions}/ >}{message.role==='assistant'&&<Button variant="ghost" size="sm" className="copy-response" onClick={()=>copy(message)} aria-label="Copy response"><Copy size={14}/>{copied===message.id?'Copied':'Copy'}</Button>}</div>)}<div ref={end} className="chat-end"/></div>:<div className="chat-welcome"><h2>What can I help you with?</h2><p>Close your next deal. Build your owner relationships.</p>{id&&<p>This conversation is unavailable. Start a new one below.</p>}</div>}
-  <div className="chat-composer">{!chat&&<div className="chat-suggestions" aria-label="Suggested prompts">{chatSuggestions.map((text,index)=><Button key={text} type="button" variant="ghost" onClick={()=>send(text)}>{["Plan my priorities","Follow up with an owner","Prepare a launch"][index]}</Button>)}</div>}<form onSubmit={e=>{e.preventDefault();send();}}><Textarea aria-label="Message AI assistant" placeholder="Ask about your workspace…" value={draft} onChange={e=>setDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();send();}}}/><div><span>Walid’s workspace</span><Button type="submit" size="icon" aria-label="Send message" disabled={!draft.trim()}><ArrowUp/></Button></div></form><p>Demo assistant · Reviewed actions update this browser only</p>{(storageError||notice)&&<p role="status">{storageError?'Browser storage is unavailable. Keep this page open to retain your conversation.':notice}</p>}</div>
+  {chat?<ConversationMessages chatId={chat.id} {...recordActions}/>:<div className="chat-welcome"><h2>What can I help you with?</h2><p>Close your next deal. Build your owner relationships.</p>{id&&<p>This conversation is unavailable. Start a new one below.</p>}</div>}
+  <div className="chat-composer">{!chat&&<div className="chat-suggestions" aria-label="Suggested prompts">{chatSuggestions.map((text,index)=><Button key={text} type="button" variant="ghost" onClick={()=>send(text)}>{["Plan my priorities","Follow up with an owner","Prepare a launch"][index]}</Button>)}</div>}
+  {open?<Button variant="outline" onClick={conversation.closeChat}>Continue here</Button>:<form onSubmit={event=>{event.preventDefault();send();}}><InlineValueComposer key={composerKey} ref={composer} parts={parts} caret={caret} insertion={insertion} onChange={setComposer} onCaret={setCaret}/><div className="composer-actions"><span>Walid’s workspace</span><Button type="submit" size="icon" aria-label="Send message" disabled={!draft.trim()}><ArrowUp/></Button></div></form>}
+  <p>Demo assistant · Reviewed actions update this browser only</p>{storageError&&<p role="status">Browser storage is unavailable. Keep this page open to retain your conversation.</p>}</div>
  </div></div>;
+}
+export function ConversationMessages({chatId,...recordActions}:Props&{chatId:string}){
+ const {data}=useCRM();const chat=chatsFor(data).find(item=>item.id===chatId);const [copied,setCopied]=useState('');const [notice,setNotice]=useState('');const end=useRef<HTMLDivElement>(null);
+ const count=chat?.messages.length;
+ useEffect(()=>{end.current?.scrollIntoView({block:'nearest'});},[chatId,count]);
+ async function copy(message:ChatMessage){try{await navigator.clipboard.writeText(message.text);setCopied(message.id);}catch{setNotice('Select the response text to copy it.');}}
+ if(!chat)return null;
+ return <div className="chat-messages" role="log" aria-label="Conversation messages" aria-live="polite"><p className="quiet-note">{chat.title} · Demo conversation</p>{chat.messages.map(message=><div className={`chat-message ${message.role}`} key={message.id}>{message.role==='assistant'&&<div className="chat-byline">BrokerOS assistant</div>}<div className="chat-text"><LinkedText text={message.text} {...recordActions}/></div>{message.proposal&&<ProposalCard chatId={chat.id} message={message} {...recordActions}/ >}{message.role==='assistant'&&<Button variant="ghost" size="sm" className="copy-response" onClick={()=>copy(message)} aria-label="Copy response"><Copy size={14}/>{copied===message.id?'Copied':'Copy'}</Button>}</div>)}{notice&&<p role="status">{notice}</p>}<div ref={end} className="chat-end"/></div>;
 }
 function ProposalCard({chatId,message,...recordActions}:Props&{chatId:string;message:ChatMessage}){
  const{data,setData}=useCRM();const[draft,setDraft]=useState<ChatProposal>(message.proposal!);const[error,setError]=useState('');

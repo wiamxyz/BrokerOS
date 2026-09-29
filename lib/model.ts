@@ -12,9 +12,10 @@ export type Campaign = {id:string;name:string;developer:string;segment:string;su
 export type ChatProposal = {kind:'task'|'draft'|'campaign';contactId:string;title:string;body:string;date?:string;time?:string};
 export type ChatReceipt = {text:string;href:string;at:string};
 export type ChatMessage = {id:string;role:'user'|'assistant';text:string;proposal?:ChatProposal;receipt?:ChatReceipt;dismissed?:boolean};
-export type AssistantChat = {id:string;title:string;messages:ChatMessage[]};
+export type AssistantChat = {id:string;title:string;messages:ChatMessage[];composerParts?:import('./inline-composer').ComposerPart[]};
+export type ComposerSession = {id:string|null;parts:import('./inline-composer').ComposerPart[];caret:number};
 export type RecentItem = {kind:'page'|'project'|'contact'|'deal'|'task'|'campaign'|'review'|'chat';id:string};
-export type CRMState = {version:1;contacts:Contact[];deals:Deal[];tasks:Task[];activities:Activity[];approvals:Approval[];campaigns:Campaign[];chats?:AssistantChat[];recentlyOpened?:RecentItem[]};
+export type CRMState = {version:1;contacts:Contact[];deals:Deal[];tasks:Task[];activities:Activity[];approvals:Approval[];campaigns:Campaign[];chats?:AssistantChat[];recentlyOpened?:RecentItem[];composerSession?:ComposerSession};
 export const uid = () => crypto.randomUUID();
 export function today(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dubai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
 export function shiftDate(days:number){const d=new Date(today()+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}

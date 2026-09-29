@@ -25,3 +25,12 @@ A real assistant should produce structured proposals with evidence and a bounded
 `lib/assistant-chat.ts` prepares bounded sample responses from current CRM data. It does not call a model. Conversations, proposals and receipts are stored in the optional `chats` field of the existing workspace record, preserving older browser data. `/chat/?chat=<id>` selects a conversation; record mentions open existing contact/deal sheets.
 
 The pure action transition checks current contact availability, opt-out status, proposal state and edited input. A proposal adds a local reminder, queues an outreach draft or saves an unsent campaign. It records the result in the conversation and assistant activity. Repeat confirmations are rejected; matching reminders are reused. Messages never leave the browser. Automated tests cover the action boundaries and swipe thresholds.
+
+
+## Shared value chat
+
+`ValueTagsProvider` sits inside `CrmProvider` across page navigation. Source fields use `valueTagId(entityScope, field)`; the same contact/deal field shares its identity in a table and detail sheet. The composer stores a validated sequence of text and atomic tag snapshots. `lib/chat-session.ts` handles legacy defaults, in-place draft saves, conversation switching and submitted snapshots without modifying CRM records.
+
+The optional `composerSession` field persists the current draft immediately; each saved chat may also hold `composerParts`. Both are part of the existing browser record, so reset clears them together. Only submissions reorder chat history. The full-page assistant and right panel share `ConversationMessages`, including reviewed proposals and linked CRM records. Arbitrary tagged text receives a deterministic sample response, never an inferred action. The Tiptap editor is loaded only when a composer is rendered.
+
+Desktop uses a nonmodal shadcn Sheet and a matching flex spacer. Its resize preference has a separate browser key and viewport clamping. At compact widths the panel becomes modal, occupies the available visual viewport and preserves the desktop preference. Context selected from a record sheet closes that sheet before opening chat; record links from chat perform the reverse handoff.

@@ -58,3 +58,12 @@ Remove the divider beneath New Chat. Resize the desktop sidebar from its edge be
 Center the assistant welcome title and supporting sentence. Keep its three suggested prompts as quiet text actions immediately above the composer. Remove decorative sparkle icons from the welcome and response byline. Keep Iconly icons where they identify useful controls.
 
 Show a direction arrow only on the currently sorted table column; keep all headings keyboard-operable and expose their sort state. Do not place an arrow beside a label inside a filled CTA. Use text alone or a relevant non-arrow action icon. Standalone navigation arrows and the icon-only send control remain.
+
+
+## Current shared chat interactions
+
+Keep the existing sage surfaces, compact navigation, active sort indicators and real-estate information architecture. Add values to AI context with a small circle immediately after the displayed value; reserve its space to avoid hover jumps. Show the control on focus and touch as well. Use a stable entity + field identity, and never nest its button inside a record action.
+
+The AI sidebar collapses completely and remembers its desktop resize preference. Its history view mirrors the left navigation without CRM tabs. Within a conversation, show only the current conversation; use a back arrow for history. Tags are atomic pills inside the editable text flow, not a separate selection tray. Keep the composer neutral while typing, preserve text/tag order and drafts, and retain accessible focus on buttons and selected tags. Desktop stays nonmodal for multi-value selection. Mobile uses a shadcn modal sheet and follows the visual viewport so the native keyboard does not cover the composer.
+
+The sidebar and full-page assistant share conversations, saved drafts, linked records and reviewable CRM actions. Replies to tagged values are labeled demo snapshots; no AI or backend is connected.

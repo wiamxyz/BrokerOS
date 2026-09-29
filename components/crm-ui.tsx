@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Priority } from '@/lib/model';
+import {Value} from '@/components/taggable-value';
 export function Pill({children,tone='neutral'}:{children:ReactNode;tone?:string}){return <Badge variant="outline" className={`pill ${tone}`}>{tone!=='neutral'&&<span className="status-dot"/>}{children}</Badge>;}
 export function PriorityPill({priority}:{priority:Priority}){return <Pill tone={priority.toLowerCase()}>{priority==='Closing'?'Ready to close':priority==='Listing'?'Win a listing':'Nurture'}</Pill>;}
 export function Avatar({name,small=false}:{name:string;small?:boolean}){const tone=name.charCodeAt(0)%4;return <span aria-hidden="true" className={`avatar avatar-${tone} ${small?'small':''}`}>{name.split(' ').map(n=>n[0]).slice(0,2).join('')}</span>;}
@@ -20,7 +21,7 @@ const compactSearchSnapshot=()=>window.matchMedia(compactSearchQuery).matches;
 const serverSearchSnapshot=()=>false;
 export function SearchInput({value,onChange,placeholder='Search contacts…'}:{value:string;onChange:(v:string)=>void;placeholder?:string}){const compact=useSyncExternalStore(subscribeCompactSearch,compactSearchSnapshot,serverSearchSnapshot);return <div className="search-input"><Search size={17}/><Input aria-label={placeholder} placeholder={compact?'Search…':placeholder} value={value} onChange={e=>onChange(e.target.value)}/></div>;}
 export function Empty({title,description,action}:{title:string;description:string;action?:ReactNode}){return <div className="empty-state"><Inbox size={28}/><h3>{title}</h3><p>{description}</p>{action}</div>;}
-export function Metric({label,value,hint,tone="neutral"}:{label:string;value:string|number;hint?:string;icon?:ReactNode;tone?:string}){return <Card className="metric" data-tone={tone}><CardContent><div className="metric-label">{label}</div><strong>{typeof value==='string'&&value.startsWith('AED ')?<><span className="metric-currency">AED </span>{value.slice(4)}</>:value}</strong>{hint&&<p className="metric-hint">{hint}</p>}</CardContent></Card>;}
+export function Metric({label,value,hint,tone="neutral"}:{label:string;value:string|number;hint?:string;icon?:ReactNode;tone?:string}){return <Card className="metric" data-tone={tone}><CardContent><div className="metric-label">{label}</div><strong><Value field={label} value={value}>{typeof value==='string'&&value.startsWith('AED ')?<><span className="metric-currency">AED </span>{value.slice(4)}</>:value}</Value></strong>{hint&&<p className="metric-hint">{hint}</p>}</CardContent></Card>;}
 export function SectionTitle({title,aside,icon}:{title:string;aside?:ReactNode;icon?:ReactNode}){return <div className="section-title"><h2>{icon}{title}</h2>{aside}</div>;}
 export function DemoNote({children}:{children?:ReactNode}){return <p className="demo-note">{children||'Sample data · Changes are saved in this browser only.'}</p>;}
 export function CheckButton({checked,onClick,label}:{checked:boolean;onClick:()=>void;label:string}){return <Button variant="ghost" size="icon-sm" className={`task-check ${checked?'checked':''}`} onClick={onClick} aria-label={label} aria-pressed={checked}>{checked?<CircleCheck size={21}/>:<span className="circle-check"/>}</Button>;}

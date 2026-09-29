@@ -58,3 +58,26 @@ Compared HandyOS `9b80ce9` through `1e18761` and applied all relevant UI refinem
 Sidebar notifications, mobile collapsible groups, active chats, bounded history, priority-first search and all CRM/demo action behavior remain available. No backend or integration changes were required.
 
 Validated with a production build, ESLint and all 25 existing tests. Browser checks covered pointer resizing, keyboard bounds, remembered width across refresh and page changes, collapse/expand, independent mobile sizing, the three assistant suggestions, sorted row order and one active sort indicator, filled campaign CTAs, and 320px/390px/1280px layouts. No browser console errors were observed.
+
+
+## September 29, 2026 — value-to-chat and current frontend parity
+
+Compared BrokerOS main `85a4b15659d0d9c27e79de3b3c7f86eae8355947` with the current local HandyOS source and the completed “Add AI value tagging chat” task. Today's HandyOS tagging/editor/panel refinements are present locally and in the published demo, beyond its latest GitHub snapshot. Source components reviewed: `value-tags-provider`, `taggable-value`, `inline-value-composer`, `value-chat-sidebar`, `value-chat-resize-handle`, `inline-composer`, and `use-chat-sidebar-width`.
+
+| Shared pattern | BrokerOS implementation |
+| --- | --- |
+| Small hover/focus plus beside values | Reusable `TagScope`, `Value`, `TaggableValue`, and `TaggedCell`; stable entity/field IDs, deduplication, keyboard focus and touch targets |
+| Tags inside the message's text flow | Shared Tiptap composer with atomic removable pills, text before/after tags, caret insertion, undo/redo, plain-text paste and persisted inline order |
+| Right AI panel | Nonmodal desktop shadcn Sheet; modal mobile sheet; complete collapse; header expand control; pointer and keyboard resizing with a remembered browser preference |
+| Responsive workspace | Remaining-width container queries, internal table scrolling, viewport-fit mobile panel, safe-area padding and visual viewport tracking for the native keyboard |
+| Chat history outside conversations | History-only view with New chat and saved conversations; back arrow opens history, without a previous-chats list inside the conversation |
+| Shared conversations and drafts | Right panel and existing full-page assistant use the same CRM chat store, message renderer and reviewed proposals; exact drafts survive navigation, switching, collapse and refresh |
+| Quiet composer and navigation | Neutral composer border without a teal focus highlight; removed the remaining gap beneath pinned New Chat |
+
+The existing palette, icons, left-sidebar resizing, active-sort-only arrows, search, cards, forms, mobile navigation and demo labeling were already aligned and are preserved. Tags are available on dashboard summaries/priorities, contact/deal tables, owner cards, task titles/due values, campaign names/subjects, review drafts, record details and sample market figures. Editable form controls continue to edit records; tagging is attached to their displayed record values instead of unsaved inputs.
+
+BrokerOS adaptation: no second chat database or parallel conversation list. `composerSession` and optional per-chat `composerParts` extend the version-1 browser data without removing saved CRM records. Tagged questions produce explicitly labeled sample replies; arbitrary tagged text never triggers a CRM action. Untagged example workflows retain reviewable reminders and unsent campaign/follow-up proposals. Reset demo data clears the new draft state with the rest of the workspace.
+
+Intentionally skipped: technician AI restrictions (BrokerOS has no technician workspace), work orders, scheduling/dispatch, job reports, time tracking, invoice/payment flows, trade/customer workspaces, Supabase or live AI/backend integrations. BrokerOS remains a static frontend with fictional data and no external outreach.
+
+Validation: optimized static build (12 pages), TypeScript, ESLint, 41 unit tests and 15 applicable desktop/mobile browser checks passed. The mobile project skips the desktop-only resize test. Verified inline text/tag ordering, undo, saved drafts, history switching, reviewed CRM actions, focus restoration, pointer/keyboard resizing, all CRM routes and 320px/390px/768px layouts. See `VERIFICATION.md` for coverage and physical-device limits. The existing Vercel project and production URL are retained.

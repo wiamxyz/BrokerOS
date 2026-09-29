@@ -1,5 +1,20 @@
 # BrokerOS verification
 
+## September 29, 2026 — latest HandyOS frontend patterns
+
+Verified against the optimized static export:
+
+- Production build passed with all 12 static pages generated; TypeScript and ESLint passed.
+- All 41 unit tests passed, covering CRM proposals, navigation/search, tag identity, inline ordering, legacy browser data, draft switching, and safe sample replies.
+- All 15 applicable Playwright checks passed across desktop Chrome and emulated mobile Chrome. The desktop-only resize test is intentionally skipped in the mobile project.
+- Browser checks cover field tagging in tables and details, deduplication, removing/undoing tags, text before/after tags, exact draft recovery after refresh, shared full-page/panel history, new conversations, reviewed reminders, forms, sorting, pointer/keyboard resize, width persistence, collapse, keyboard focus restoration, every CRM route, and search/navigation at compact widths.
+- Checked 320px, 390px, 768px and desktop layouts: no document horizontal overflow. Tables retain their own scrolling region. The mobile composer and Send control remain visible.
+- No uncaught browser errors in the tested flows. Desktop and mobile screenshots were visually reviewed.
+
+Mobile coverage uses browser emulation, not a physical device. Replies, communications, market figures and CRM actions remain browser-local demo behavior. No AI service, backend or external delivery was introduced.
+
+## Earlier verification
+
 Verified on 24 September 2026 against the production build.
 
 - Production build: passed; all 11 pages generated. TypeScript and ESLint: passed.
